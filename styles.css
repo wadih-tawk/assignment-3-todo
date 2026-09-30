@@ -1,0 +1,297 @@
+/* =========================================================
+   To-Do List | Assignment 3
+   1. Design tokens      5. Task list
+   2. Base styles        6. Buttons
+   3. Layout             7. Focus and footer
+   4. Form and feedback  8. Media query (mobile-first)
+   ========================================================= */
+
+/* ---------- 1. Design tokens (chapter 06) ---------- */
+:root {
+  /* colors, named by role */
+  --surface: hsl(222, 28%, 8%);    /* page background */
+  --card:    hsl(222, 22%, 13%);   /* panels */
+  --text:    hsl(220, 20%, 90%);   /* body copy */
+  --muted:   hsl(220, 12%, 66%);   /* secondary text, done tasks */
+  --brand:   hsl(212, 100%, 67%);  /* buttons, focus rings */
+  --success: hsl(140, 55%, 55%);   /* ticked checkboxes */
+  --danger:  hsl(4, 90%, 70%);     /* error message, delete */
+
+  /* spacing scale: every gap and padding comes from this list */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2rem;
+  --sp-6: 3rem;
+
+  --radius: 10px;
+}
+
+/* ---------- 2. Base styles ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+/* form controls don't inherit the page font by default */
+button,
+input {
+  font: inherit;
+}
+
+/* ---------- 3. Layout ---------- */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--sp-5) var(--sp-3);
+}
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.subtitle {
+  color: var(--muted);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--card);
+  border-radius: var(--radius);
+}
+
+/* ---------- 4. Form and feedback ---------- */
+.task-form {
+  gap: var(--sp-2);
+  padding-bottom: var(--sp-3);   /* the feedback line already adds space at the bottom */
+}
+
+.task-form label {
+  font-weight: 700;
+}
+
+.form-row {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.form-row input {
+  flex: 1 1 auto;
+  min-width: 0;                /* chapter 04: lets the input shrink on narrow screens */
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--muted);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.form-row input::placeholder {
+  color: var(--muted);
+}
+
+.form-row input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.feedback {
+  min-height: 1.5em;           /* keeps a line reserved, so the page doesn't jump when a message appears */
+  color: var(--danger);
+  font-size: 0.9375rem;
+}
+
+/* ---------- 5. Task list ---------- */
+.tasks-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+
+.stats {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* an empty list would still add a gap inside the card */
+.task-list:empty {
+  display: none;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 200ms ease-out;
+}
+
+.task:hover {
+  border-color: var(--muted);
+}
+
+.task-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex: 1 1 auto;
+  min-width: 0;                /* chapter 04 gotcha: without it, a long title overflows the row */
+  padding: var(--sp-1) 0;
+  cursor: pointer;
+}
+
+.task-check {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--success);
+  cursor: pointer;
+}
+
+.task-title {
+  min-width: 0;
+  overflow-wrap: anywhere;     /* breaks a very long word instead of stretching the page */
+}
+
+.task.done .task-title {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.delete-button {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 200ms ease-out, background 200ms ease-out;
+}
+
+.delete-button:hover {
+  background: var(--card);
+  color: var(--danger);
+}
+
+.empty-state {
+  padding: var(--sp-4) var(--sp-3);
+  border: 1px dashed var(--muted);
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ---------- 6. Buttons ---------- */
+.button {
+  padding: var(--sp-2) var(--sp-4);
+  border: 2px solid var(--brand);
+  border-radius: var(--radius);
+  background: var(--brand);
+  color: var(--surface);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease-out, border-color 200ms ease-out, color 200ms ease-out;
+}
+
+.button:hover {
+  border-color: var(--text);
+  background: var(--text);
+}
+
+.button-outline {
+  background: transparent;
+  color: var(--brand);
+}
+
+.button-outline:hover {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--surface);
+}
+
+/* chapter 04: align-self lets one item break from the column's alignment */
+.tasks .button-outline {
+  align-self: flex-end;
+}
+
+/* ---------- 7. Focus and footer ---------- */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+.footer {
+  padding: 0 var(--sp-3) var(--sp-5);
+  color: var(--muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ---------- 8. Media query (mobile-first, chapter 05) ---------- */
+@media (min-width: 600px) {
+
+  .app {
+    padding-top: var(--sp-6);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .card {
+    padding: var(--sp-5);
+  }
+
+  .task-form {
+    padding-bottom: var(--sp-3);
+  }
+}

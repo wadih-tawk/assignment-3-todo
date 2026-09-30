@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List | Assignment 3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header class="app-header">
+      <h1>To-Do List</h1>
+      <p class="subtitle">Add a task, tick it off when it's done. Your list is saved in this browser.</p>
+    </header>
+
+    <form class="card task-form" id="task-form">
+      <label for="task-input">New task</label>
+
+      <div class="form-row">
+        <input id="task-input" name="task" type="text" maxlength="120" autocomplete="off"
+          placeholder="e.g. Finish the lab" aria-describedby="feedback" autofocus>
+        <button class="button" type="submit">Add</button>
+      </div>
+
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+    </form>
+
+    <section class="card tasks" aria-labelledby="tasks-heading">
+      <div class="tasks-header">
+        <h2 id="tasks-heading">Tasks</h2>
+        <p class="stats" id="stats" aria-live="polite" hidden></p>
+      </div>
+
+      <ul class="task-list" id="task-list"></ul>
+
+      <p class="empty-state" id="empty-state">No tasks yet. Add your first one above.</p>
+
+      <button class="button button-outline" id="clear-completed" type="button" hidden>Clear completed</button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Web Programming · Assignment 3 · Wadih Tawk</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
